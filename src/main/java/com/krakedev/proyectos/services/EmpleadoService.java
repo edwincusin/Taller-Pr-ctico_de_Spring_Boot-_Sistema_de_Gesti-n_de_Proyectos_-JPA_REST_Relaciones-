@@ -37,11 +37,11 @@ public class EmpleadoService {
 	}
 	
 	//ACTUALIZAR 
-	public Empleado actualizar(Long id, Proyecto empleadoNuevo) {
+	public Empleado actualizar(Long id, Empleado empleadoNuevo) {
 		Empleado empleado=buscarPorID(id);
 		
 		empleado.setNombre(empleadoNuevo.getNombre());
-		empleado.setCargo(empleado.getCargo());
+		empleado.setCargo(empleadoNuevo.getCargo());
 		
 		return repositoryEmpleado.save(empleado);
 	}
