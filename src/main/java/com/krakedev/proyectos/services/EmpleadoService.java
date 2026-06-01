@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.krakedev.proyectos.entidades.Empleado;
-import com.krakedev.proyectos.entidades.Proyecto;
 import com.krakedev.proyectos.repositories.EmpleadoRepository;
 
 @ Service
