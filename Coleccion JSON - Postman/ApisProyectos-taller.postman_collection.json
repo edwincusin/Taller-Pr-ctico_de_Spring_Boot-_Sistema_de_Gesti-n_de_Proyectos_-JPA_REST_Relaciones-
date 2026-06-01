@@ -1,0 +1,236 @@
+{
+  "info": {
+    "_postman_id": "32aae295-1adf-4e1f-95f4-1a2bc5017d1e",
+    "name": "ApisProyectos-taller",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "50391873",
+    "_collection_link": "https://go.postman.co/collection/50391873-32aae295-1adf-4e1f-95f4-1a2bc5017d1e?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "empleado",
+      "item": [
+        {
+          "name": "Registrar un Empleado (POST)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"nombre\": \"Edwin Cusin\",\r\n   \"cargo\": \"Desarrollador Junior\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/empleados",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "empleados"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "listar Empleados",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"nombre\": \"Diana Rojas\",\r\n   \"cargo\": \"Desarrollador Senior\"\r\n}\r\n"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/empleados",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "empleados"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "buscarPorId empleado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/empleados/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "empleados",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "modificarempleado",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"nombre\": \"Edwin Cusin Antamba\",\r\n    \"cargo\": \"Desarrollador Junior 00Exp\",\r\n    \"id\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/empleados/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "empleados",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "eliminar",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"nombre\": \"Diana Rojas\",\r\n   \"cargo\": \"Desarrollador Senior\"\r\n}\r\n"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/empleados/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "empleados",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "proyecto",
+      "item": [
+        {
+          "name": "Registrar un Proyecto (POST)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"nombre\": \"E-Commerce Plataforma\",\r\n   \"descripcion\": \"Desarrollo del nuevo portal de ventas online\",\r\n   \"fechaInicio\": \"2026-05-20\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/proyectos",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "proyectos"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "tareas",
+      "item": [
+        {
+          "name": "Registrar una Tarea con relaciones (POST)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"descripcion\": \"Diseñar e implementar el modelo de datos para la base de datos\",\r\n   \"fechaLimite\": \"2026-06-15\",\r\n   \"costoEstimado\": 450.50,\r\n   \"proyecto\": {\r\n       \"id\": 1\r\n   },\r\n   \"empleados\": [\r\n       {\r\n           \"id\": 1\r\n       }\r\n   ]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/tareas",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "tareas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Consultar todas las Tareas (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/tareas",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "tareas"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
