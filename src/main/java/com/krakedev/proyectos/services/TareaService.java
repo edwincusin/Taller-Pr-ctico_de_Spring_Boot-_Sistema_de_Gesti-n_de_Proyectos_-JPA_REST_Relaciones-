@@ -96,6 +96,6 @@ public class TareaService {
 
         tareaRepository.delete(tarea);
     }
-}
+
 	
 }
