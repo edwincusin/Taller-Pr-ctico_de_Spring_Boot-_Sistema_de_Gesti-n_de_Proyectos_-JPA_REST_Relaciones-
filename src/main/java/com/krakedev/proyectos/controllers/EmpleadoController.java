@@ -51,7 +51,7 @@ public class EmpleadoController {
 
 	// LISTAR TODOS
 	@GetMapping
-	@PreAuthorize("hasRole('ADMIN','USER')")
+	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	public ResponseEntity<?> listar() {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(servicio.listar());
