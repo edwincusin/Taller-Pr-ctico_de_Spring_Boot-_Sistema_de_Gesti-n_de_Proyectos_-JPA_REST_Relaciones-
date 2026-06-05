@@ -10,7 +10,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 public class JwtUtil {
 	private static final String CLAVE_SECRETA = "EstaEsUnaClaveSuperSecretaLarga1234567890";
 	private static final String EMISOR = "KeakeDevBackend";
-	private static final long TIEMPO__EXPIRACION = 1800;
+	private static final long TIEMPO__EXPIRACION = 60000;
 
 	public static String generarToken(String userName, String rol) {
 
