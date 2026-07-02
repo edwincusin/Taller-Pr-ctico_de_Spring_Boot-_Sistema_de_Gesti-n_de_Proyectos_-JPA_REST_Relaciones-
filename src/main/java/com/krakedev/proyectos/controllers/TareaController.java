@@ -1,5 +1,7 @@
 package com.krakedev.proyectos.controllers;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.krakedev.proyectos.entidades.Tarea;
 import com.krakedev.proyectos.services.TareaService;
 
@@ -18,100 +21,90 @@ import com.krakedev.proyectos.services.TareaService;
 @RequestMapping("/api/tareas")
 public class TareaController {
 
-    private final TareaService servicio;
+	private final TareaService servicio;
 
-    public TareaController(TareaService servicio) {
-        this.servicio = servicio;
-    }
 
-    // INSERTAR NUEVO
-    @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> insertar(@RequestBody Tarea tarea) {
+	public TareaController(TareaService servicio) {
+		this.servicio = servicio;
+	}
 
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(servicio.insertar(tarea));
+	// CREAR TAREA NUEVO
+	@PostMapping
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> crearTarea(@RequestBody Tarea tarea) {
 
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(e.getMessage());
+		try {
+	
+			return ResponseEntity.status(HttpStatus.CREATED).body(servicio.insertar(tarea));
 
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al insertar tarea");
-        }
-    }
+		} catch (IllegalArgumentException e) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error","Prioridad no válida"));
 
-    // BUSCAR POR ID
-    @GetMapping("/{id}")
-    public ResponseEntity<?> buscarPorID(@PathVariable Long id) {
+	    } catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 
-        try {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(servicio.buscarPorID(id));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al insertar tarea");
+		}
+	}
 
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(e.getMessage());
+	// BUSCAR POR ID
+	@GetMapping("/{id}")
+	public ResponseEntity<?> buscarPorID(@PathVariable Long id) {
 
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al buscar tarea por id");
-        }
-    }
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(servicio.buscarPorID(id));
 
-    // LISTAR TODOS
-    @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public ResponseEntity<?> listar() {
+		} catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 
-        try {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(servicio.listar());
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al buscar tarea por id");
+		}
+	}
 
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al listar tareas");
-        }
-    }
+	// LISTAR TODOS
+	@GetMapping
+	@PreAuthorize("hasAnyRole('ADMIN','USER')")
+	public ResponseEntity<?> listar() {
 
-    // ACTUALIZAR
-    @PutMapping("/{id}")
-    public ResponseEntity<?> actualizar(@PathVariable Long id,
-                                        @RequestBody Tarea tareaNueva) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(servicio.listar());
 
-        try {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(servicio.actualizar(id, tareaNueva));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al listar tareas");
+		}
+	}
 
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(e.getMessage());
+	// ACTUALIZAR
+	@PutMapping("/{id}")
+	public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody Tarea tareaNueva) {
 
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al actualizar tarea");
-        }
-    }
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(servicio.actualizar(id, tareaNueva));
 
-    // ELIMINAR
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Long id) {
+		} catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 
-        try {
-            servicio.eliminar(id);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar tarea");
+		}
+	}
 
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body("Se eliminó correctamente");
+	// ELIMINAR
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> eliminar(@PathVariable Long id) {
 
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(e.getMessage());
+		try {
+			servicio.eliminar(id);
 
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al eliminar tarea");
-        }
-    }
+			return ResponseEntity.status(HttpStatus.OK).body("Se eliminó correctamente");
+
+		} catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar tarea");
+		}
+	}
 }

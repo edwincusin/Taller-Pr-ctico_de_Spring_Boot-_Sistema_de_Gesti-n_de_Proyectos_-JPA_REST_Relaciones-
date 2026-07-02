@@ -28,6 +28,12 @@ public class TareaService {
 	
 	//INSERTAR
 	public Tarea insertar(Tarea tarea) {
+		
+		if (!tarea.getPrioridad().equals("ALTA") && !tarea.getPrioridad().equals("MEDIA")
+				&& !tarea.getPrioridad().equals("BAJA")) {
+			throw new IllegalArgumentException("Prioridad no válida");
+		}
+		
 		Proyecto proyecto=proyectoRepository.findById(tarea.getProyecto().getId()).orElseThrow(()-> new RuntimeException("Proyecto no existe en la BDD"));
 		
 		List<Empleado> empleadosBDD=new ArrayList<Empleado>();
