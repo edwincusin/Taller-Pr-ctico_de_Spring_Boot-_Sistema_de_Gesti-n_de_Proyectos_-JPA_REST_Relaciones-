@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -24,11 +23,7 @@ import com.krakedev.proyectos.services.UsuarioService;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(
-	    origins = "http://localhost:5173",
-	    methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE },
-	    allowedHeaders = { "Authorization", "Content-Type" }
-	)
+@CrossOrigin(origins="http://localhost:5173") // esta permiido que se consuma desde la 
 public class AuthController {
 
 	private final UsuarioService servicio;
@@ -67,8 +62,8 @@ public class AuthController {
 			Usuario usuarioLogueado = servicio.login(username, password);
 
 			if (usuarioLogueado != null) {
-				String token = JwtUtil.generarToken(usuarioLogueado.getUsername(), usuarioLogueado.getRol());
-				return ResponseEntity.ok(Map.of("TOKEN", token));
+			    String token = JwtUtil.generarToken(usuarioLogueado.getUsername(), usuarioLogueado.getRol());
+			    return ResponseEntity.ok(Map.of("token", token, "rol", usuarioLogueado.getRol()));
 			}
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
 		} catch (Exception e) {
@@ -103,7 +98,7 @@ public class AuthController {
 			String usuario = jwt.getSubject();
 			String rol = jwt.getClaim("rol").asString();
 
-			return ResponseEntity.ok(Map.of("Mensaje", "Bienvenido", "Usuario", usuario, "Rol", rol, "Estatus",
+			return ResponseEntity.ok(Map.of("Mensaje", "Bienvenido", "Usuario", usuario, "Rol", rol, "status",
 					"Autenticado Exitosamente"));
 
 		} catch (Exception e) {
