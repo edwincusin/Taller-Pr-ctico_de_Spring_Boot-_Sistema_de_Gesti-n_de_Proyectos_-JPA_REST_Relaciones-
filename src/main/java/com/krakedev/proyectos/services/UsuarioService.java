@@ -25,6 +25,7 @@ public class UsuarioService {
 	    
 		String passEncriptada=BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt());
 		usuario.setPassword(passEncriptada);
+		
 		return repositorio.save(usuario);
 	}
 	
