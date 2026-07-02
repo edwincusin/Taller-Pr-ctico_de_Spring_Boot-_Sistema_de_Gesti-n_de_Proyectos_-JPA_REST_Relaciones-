@@ -50,5 +50,13 @@ public class ProyectoService {
 	    Proyecto proyecto = buscarPorID(id);
 	    repositoryProyecto.delete(proyecto);
 	}
+	
+	//CONTEO DE PROYECTOS REGISTRADOS
+	// Cuenta el total de proyectos registrados
+	public Long contarProyectos() {
+	    return repositoryProyecto.count();
+	}
+	
+	
 
 }

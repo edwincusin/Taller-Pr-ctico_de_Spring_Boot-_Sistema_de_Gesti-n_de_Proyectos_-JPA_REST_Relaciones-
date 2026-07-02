@@ -24,8 +24,8 @@ public class ProyectoController {
 	public ProyectoController(ProyectoService servicio) {
 		this.servicio = servicio;
 	}
-	
-	//INSERTAR NUEVO
+
+	// INSERTAR NUEVO
 	@PostMapping
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> insertar(@RequestBody Proyecto proyecto) {
@@ -36,15 +36,22 @@ public class ProyectoController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al insertar proyecto");
 		}
 	}
-	
+
+	// ENDPOIT CONTADOR DE REGISTRO PROYECTOS SIN TOKEN SEIA UN PUBLICO 
+	@GetMapping("/publico/resumen")
+	public ResponseEntity<?> resumenPublico() {
+		Long total = servicio.contarProyectos();
+		return ResponseEntity.status(HttpStatus.OK).body(total);
+	}
+
 	// BUSCAR POR ID
 	@GetMapping("/{id}")
 	public ResponseEntity<?> buscarPorID(@PathVariable Long id) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(servicio.buscarPorID(id)); 
+			return ResponseEntity.status(HttpStatus.OK).body(servicio.buscarPorID(id));
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al buscar proyecto");
 		}
 	}
@@ -59,37 +66,34 @@ public class ProyectoController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al listar proyectos");
 		}
 	}
-	
-	//ACTUALIZAR
+
+	// ACTUALIZAR
 	@PutMapping("/{id}")
-	public ResponseEntity<?> actualizar(@PathVariable Long id,@RequestBody Proyecto proyectoNuevo) {
+	public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody Proyecto proyectoNuevo) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(servicio.actualizar(id, proyectoNuevo)); 
+			return ResponseEntity.status(HttpStatus.OK).body(servicio.actualizar(id, proyectoNuevo));
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar proyecto");
 		}
-		
+
 	}
-	
-	//ELIMINAR
+
+	// ELIMINAR
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?>  eliminar(@PathVariable Long id) {
+	public ResponseEntity<?> eliminar(@PathVariable Long id) {
 		try {
-						
+
 			servicio.eliminar(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Eliminado correctamente");
-			
+
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar proyectos");
 		}
 	}
 
-	
-	
-	
 }
